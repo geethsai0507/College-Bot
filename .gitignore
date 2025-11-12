@@ -1,0 +1,7 @@
+# Ignore the data folder (large files, PDFs, csvs etc.)
+data/
+faiss_ollama/
+logs/
+zrok.txt
+mini/
+faculty_data.json

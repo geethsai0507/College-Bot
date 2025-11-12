@@ -1,0 +1,244 @@
+/* static/style.css */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+    font-size: 100%;
+    background: #F1F1F1; /* Light grey background */
+}
+
+:root {
+    --primaryGradient: linear-gradient(93.12deg, #581B98 0.52%, #9C1DE7 100%);
+    --secondaryGradient: linear-gradient(268.91deg, #581B98 -2.14%, #9C1DE7 99.69%);
+    --primaryBoxShadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+    --secondaryBoxShadow: 0px -10px 15px rgba(0, 0, 0, 0.1);
+    --primaryColor: #581B98;
+    --visitorMessageBackground: #E0E0E0;
+    --operatorMessageBackground: var(--primaryColor);
+    --operatorMessageColor: white;
+    --borderRadius: 20px;
+    --chatboxWidth: 350px;
+    --chatboxHeight: 450px;
+    --chatboxButtonSize: 60px; /* Define button size as a variable */
+    --chatboxButtonPadding: 10px; /* Define button padding */
+    --chatboxButtonTotalSize: calc(var(--chatboxButtonSize) + (var(--chatboxButtonPadding) * 2)); /* Calculate total size */
+}
+
+/* Chatbox container - This acts as the positioning context */
+.chatbox {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    /* Remove flex properties here, children are positioned differently */
+    /* display: block; or just let it be block by default */
+}
+
+/* Chat open/close button - Positioned relative to the chatbox container */
+.chatbox__button {
+    /* Position this relative to the fixed chatbox container */
+    position: absolute; /* Position button relative to .chatbox */
+    bottom: 0; /* Align to the bottom of .chatbox */
+    right: 0; /* Align to the right of .chatbox */
+    z-index: 1; /* Ensure button is above the support window initially */
+}
+
+.chatbox__button button {
+    padding: var(--chatboxButtonPadding);
+    background: white;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    box-shadow: var(--primaryBoxShadow);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex; /* Center image */
+    align-items: center;
+    justify-content: center;
+    width: var(--chatboxButtonTotalSize); /* Use calculated total size */
+    height: var(--chatboxButtonTotalSize); /* Use calculated total size */
+}
+
+.chatbox__button button:hover {
+    background-color: #eee; /* Slight hover effect */
+}
+
+.chatbox__icon {
+    width: var(--chatboxButtonSize); /* Use defined size */
+    height: var(--chatboxButtonSize); /* Use defined size */
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* The chat window itself (hidden by default) */
+.chatbox__support {
+    position: absolute; /* Position relative to .chatbox */
+    bottom: calc(var(--chatboxButtonTotalSize) + 10px); /* Position above the button with some margin */
+    right: 0; /* Align right edge with the button */
+    display: flex;
+    flex-direction: column;
+    background: #f9f9f9;
+    width: var(--chatboxWidth);
+    height: var(--chatboxHeight);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    border-radius: var(--borderRadius);
+    /* Initial state: scaled down and invisible near the button */
+    transform: scale(0.5); /* Start small */
+    transform-origin: bottom right; /* Scale from bottom right (near the button) */
+    opacity: 0;
+    visibility: hidden;
+    transition: all .5s ease-in-out;
+    overflow: hidden;
+    z-index: 0; /* Ensure support window is below button initially */
+}
+
+/* Active state for the chat window */
+.chatbox--active .chatbox__support {
+    transform: scale(1); /* Scale up to full size */
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Header section */
+.chatbox__header {
+    background: var(--primaryGradient);
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-top-left-radius: var(--borderRadius);
+    border-top-right-radius: var(--borderRadius);
+    box-shadow: var(--primaryBoxShadow);
+    color: white;
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.chatbox__image--header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.chatbox__content--header {
+    flex-grow: 1;
+}
+
+.chatbox__heading--header {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.chatbox__description--header {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* Messages area */
+.chatbox__messages {
+    flex-grow: 1;
+    padding: 20px 20px 10px 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    background-color: #ffffff;
+}
+
+.messages__item {
+    margin-top: 10px;
+    padding: 10px 15px;
+    max-width: 75%;
+    word-wrap: break-word;
+    line-height: 1.4;
+    font-size: 0.95rem;
+}
+
+.messages__item--visitor {
+    margin-right: auto;
+    background: var(--visitorMessageBackground);
+    color: #333;
+    border-radius: var(--borderRadius) var(--borderRadius) var(--borderRadius) 0;
+}
+
+.messages__item--operator {
+    margin-left: auto;
+    background: var(--operatorMessageBackground);
+    color: var(--operatorMessageColor);
+    border-radius: var(--borderRadius) var(--borderRadius) 0 var(--borderRadius);
+}
+
+.messages__item--typing {
+    font-style: italic;
+    opacity: 0.7;
+    background: var(--visitorMessageBackground);
+    color: #333;
+    border-radius: var(--borderRadius) var(--borderRadius) var(--borderRadius) 0;
+    margin-right: auto;
+}
+
+/* Footer (input area) */
+.chatbox__footer {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background: #f0f0f0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom-left-radius: var(--borderRadius);
+    border-bottom-right-radius: var(--borderRadius);
+    flex-shrink: 0;
+}
+
+.chatbox__footer input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin-right: 10px;
+    outline: none;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+}
+
+.chatbox__footer input:focus {
+    border-color: var(--primaryColor);
+}
+
+.chatbox__send--footer {
+    color: var(--primaryColor);
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+.chatbox__send--footer:hover {
+    color: #9C1DE7;
+}
+
+/* Scrollbar styling (optional, WebKit browsers) */
+.chatbox__messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chatbox__messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chatbox__messages::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+.chatbox__messages::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
