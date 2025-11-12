@@ -2,9 +2,7 @@
 AI powered college chatbot using RAG
 Collecting workspace informationGitHub Copilot
 
-Here’s a concise GitHub project description you can use for your chatbot repo.
-
-Project title
+## Project title
 AI-Powered Faculty Chatbot
 
 Short description
@@ -19,17 +17,12 @@ Key features
 - Config and models: config.py, chatmodel.txt, zrok.txt. Logs and examples in logs.
 
 Quick start
-1. Install dependencies:
-```sh
-pip install -r mini/requirements.txt
-```
-(see mini/requirements.txt)
 
-2. Populate the index (if needed) using:
+1. Populate the index (if needed) using:
 - get_embedding_function_copy.py and
 - populate_database_copy.py
 
-3. Run the web app:
+2. Run the web app:
 ```sh
 python app.py
 ```
@@ -45,5 +38,3 @@ Files to inspect first
 - get_embedding_function_copy.py — embedding helper  
 - populate_database_copy.py — index builder  
 - index.faiss — prebuilt index
-
-Use or adapt this description in your repository README.
